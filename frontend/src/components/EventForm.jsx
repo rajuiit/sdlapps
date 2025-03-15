@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 
-const TaskForm = ({ events, setEvents, editingEvent, setEditingEvent }) => {
+const EventForm = ({ events, setEvents, editingEvent, setEditingEvent }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ name: '', description: '', location: '', date: '' });
 
   useEffect(() => {
     if (editingEvent) {
       setFormData({
+        id: editingEvent.id,
         name: editingEvent.name,
         description: editingEvent.description,
         location: editingEvent.location,
-        date: editingEvent.date,
+        date: new Date(editingEvent.date).toISOString().split('T')[0],
       });
     } else {
       setFormData({ name: '', description: '', location: '', date: '' });
@@ -42,11 +43,11 @@ const TaskForm = ({ events, setEvents, editingEvent, setEditingEvent }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded mb-6">
-      <h1 className="text-2xl font-bold mb-4">{editingEvent ? 'Your Form Name: Edit Operation' : 'Your Form Name: Create Operation'}</h1>
+      <h1 className="text-2xl font-bold mb-4">{editingEvent ? 'Edit Event' : 'Create Event'}</h1>
       <input
         type="text"
         placeholder="Name"
-        value={formData.title}
+        value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
@@ -66,7 +67,7 @@ const TaskForm = ({ events, setEvents, editingEvent, setEditingEvent }) => {
       />
       <input
         type="date"
-        value={formData.deadline}
+        value={formData.date}
         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
@@ -77,4 +78,4 @@ const TaskForm = ({ events, setEvents, editingEvent, setEditingEvent }) => {
   );
 };
 
-export default TaskForm;
+export default EventForm;

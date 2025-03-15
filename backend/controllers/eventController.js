@@ -20,4 +20,25 @@ const createEvent = async (req, res) => {
         }
 };
 
-module.exports = { getEvents, createEvent };
+const updateEvent = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, description, location, date } = req.body;
+        
+        const updatedEvent = await Event.findByIdAndUpdate(
+            id,
+            { name, description, location, date },
+            { new: true }
+        );
+
+        if (!updatedEvent) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        res.json(updatedEvent);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating event', error: error.message });
+    }
+};
+
+module.exports = { getEvents, createEvent, updateEvent };

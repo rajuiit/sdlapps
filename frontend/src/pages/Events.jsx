@@ -27,10 +27,10 @@ const Events = () => {
   return (
     <div className="container mx-auto p-6">
       <EventForm
-        tasks={events}
-        setTasks={setEvents}
-        editingTask={editingEvent}
-        setEditingTask={setEditingEvent}
+        events={events}
+        setEvents={setEvents}
+        editingEvent={editingEvent}
+        setEditingEvent={setEditingEvent}
       />
       <EventList events={events} setEvents={setEvents} setEditingEvent={setEditingEvent} />
     </div>
