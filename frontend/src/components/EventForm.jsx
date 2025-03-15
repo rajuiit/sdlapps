@@ -27,7 +27,7 @@ const EventForm = ({ events, setEvents, editingEvent, setEditingEvent }) => {
         const response = await axiosInstance.put(`/api/events/${editingEvent._id}`, formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        setEvents(events.map((task) => (task._id === response.data._id ? response.data : task)));
+        setEvents(events.map((event) => (event._id === response.data._id ? response.data : event)));
       } else {
         const response = await axiosInstance.post('/api/events', formData, {
           headers: { Authorization: `Bearer ${user.token}` },
