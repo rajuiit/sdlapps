@@ -1,4 +1,4 @@
-# **Assignment: Full-Stack CRUD Application Development with DevOps Practices**
+# **Event management app: Full-Stack CRUD Application Development with DevOps Practices**
 
 ## **Objective**
 
@@ -51,11 +51,10 @@ Select a meaningful use case for your CRUD operations. We will provide the list,
 
 ### **7. CI/CD Pipeline Setup**
 
-* Implement a **CI/CD pipeline using GitHub Actions** to:
-  * Automatically **run tests** on every commit/pull request (Optional).
-  * Deploy the **backend** to **AWS** .
-  * Deploy the **frontend** to **AWS**.
-* Document your  **CI/CD workflow in the README** .
+* Configured for Continuous integration and Continuous deployment
+* Build and deploy pipeline is configured to run on a `push` to `main` branch
+* Runs on a self hosted agent  
+* Agent runs on a Aws EC2 instance
 
 ## **Submission Requirements**
 
