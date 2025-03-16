@@ -22,20 +22,32 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
           <h2 className="font-bold">{event.name}</h2>
           <p>{event.description}</p>
           <p className="text-sm text-gray-500">Date: {new Date(event.date).toLocaleDateString()}</p>
-          <div className="mt-2">
+          <p className="text-sm text-gray-500">Created by: {event.creator.name}</p>
+          {event.isEditable && (
+            <div className="mt-2">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                onClick={() => setEditingEvent(event)}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => handleDelete(event._id)}
+              >
+                Delete
+              </button>
+            </div>
+          )}
+          {!event.isEditable && (
+            <div className="mt-2">
             <button
-              onClick={() => setEditingEvent(event)}
-              className="mr-2 bg-yellow-500 text-white px-4 py-2 rounded"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
             >
-              Edit
+              Register
             </button>
-            <button
-              onClick={() => handleDelete(event._id)}
-              className="bg-red-500 text-white px-4 py-2 rounded"
-            >
-              Delete
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       ))}
     </div>
