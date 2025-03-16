@@ -20,7 +20,7 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
       const response = await axiosInstance.post(`/api/events/register/${eventId}`, {}, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      setEvents([...events, response.data]);
+      setEvents(events.map((event) => (event._id === response.data._id ? response.data : event)));
       alert('Successfully registered for the event!');
     } catch (error) {
       alert('Failed to register for the event.');
@@ -35,6 +35,28 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
           <p>{event.description}</p>
           <p className="text-sm text-gray-500">Date: {new Date(event.date).toLocaleDateString()}</p>
           <p className="text-sm text-gray-500">Created by: {event.creator.name}</p>
+          {event.participants && event.participants.length > 0 ? (
+            <div className="mt-2">
+              <button
+                className="text-blue-500 hover:text-blue-700"
+                onClick={(e) => {
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                Show Participants
+              </button>
+              <div className="hidden mt-2 ml-4">
+                {event.participants.map((participant) => (
+                  <div key={participant._id} className="text-sm text-gray-600">
+                    {participant.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) 
+          : (<div className="mt-2">
+              <p className="text-orange-500"><strong>No registrations yet</strong></p>
+            </div>)}
           {event.isEditable && (
             <div className="mt-2">
               <button
@@ -51,7 +73,7 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
               </button>
             </div>
           )}
-          {!event.isEditable && (
+          {!event.isEditable && !event.isRegistered && (
             <div className="mt-2">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"

@@ -2,10 +2,12 @@ const Event = require('../models/Event');
 
 const getEvents = async (req, res) => {
     try {
-        const events = await Event.find().populate('creator', 'name email');
+        const events = await Event.find().populate('creator participants', 'name email');;
         const eventsRes = events.map(event => ({
             ...event.toObject(),
-            isEditable: event.creator._id.toString() === req.user.id
+            isEditable: event.creator._id.toString() === req.user.id,
+            isRegistered: event.creator._id.toString() === req.user.id 
+            || event.participants.some(participant => participant._id.toString() === req.user.id)
         }));
         res.json(eventsRes);
     } catch (error) {
@@ -99,7 +101,12 @@ const register = async (req, res) => {
         await event.save();
 
         const updatedEvent = await event.populate('creator participants', 'name email');
-        res.json(updatedEvent);
+        const eventRes = {
+            ...updatedEvent.toObject(),
+            isEditable: updatedEvent.creator._id.toString() === req.user.id,
+            isRegistered: true
+        };
+        res.json(eventRes);
     } catch (error) {
         res.status(500).json({ message: 'Error registering for event', error: error.message });
     }
