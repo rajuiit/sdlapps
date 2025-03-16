@@ -81,4 +81,34 @@ const deleteEvent = async (req, res) => {
     }
 };
 
-module.exports = { getEvents, createEvent, updateEvent, deleteEvent };
+const register = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const event = await Event.findById(id).populate('creator participants', 'name email');
+        
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        if (event.participants 
+            && event.participants.some(participant => participant._id.toString() === req.user.id)) {
+            return res.status(400).json({ message: 'Already registered for this event' });
+        }
+        
+        event.participants.push(req.user.id);
+        await event.save();
+
+        const updatedEvent = await event.populate('creator participants', 'name email');
+        res.json(updatedEvent);
+    } catch (error) {
+        res.status(500).json({ message: 'Error registering for event', error: error.message });
+    }
+};
+
+module.exports = { 
+    getEvents, 
+    createEvent, 
+    updateEvent, 
+    deleteEvent, 
+    register 
+};

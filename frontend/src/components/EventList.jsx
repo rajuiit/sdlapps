@@ -15,6 +15,18 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
     }
   };
 
+  const handleRegister = async (eventId) => {
+    try {
+      const response = await axiosInstance.post(`/api/events/register/${eventId}`, {}, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setEvents([...events, response.data]);
+      alert('Successfully registered for the event!');
+    } catch (error) {
+      alert('Failed to register for the event.');
+    }
+  };
+
   return (
     <div>
       {events.map((event) => (
@@ -43,6 +55,7 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
             <div className="mt-2">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+              onClick={() => handleRegister(event._id)}
             >
               Register
             </button>
