@@ -1,19 +1,12 @@
-# **Event management app: Full-Stack CRUD Application Development with DevOps Practices**
+# **Event Management App: Full-Stack CRUD Application Development with DevOps Practices**
 
-## **Objective**
+## **1. Event Management Application Features**
 
-You have been provided with a starter project that includes user authentication using  **Node.js, React.js, and MongoDB**. Your task is to extend this application by implementing **CRUD (Create, Read, Update, Delete) operations** for a real-world application of your choice, while following industry best practices such as:
+This application allows authenticated users to:
 
-* **Project Management with JIRA**
-* **Requirement Diagram using SysML**
-* **Version Control using GitHub**
-* **CI/CD Integration for Automated Deployment**
-
-## **Requirements**
-
-### **1. Choose a Real-World Application**
-
-Select a meaningful use case for your CRUD operations. We will provide the list, you have to select it.
+* Create and manage events with details like title, date, location, and description
+* Register for events
+* Track event attendance
 
 ### **2. Project Management with JIRA and SysML**
 
@@ -25,43 +18,78 @@ Select a meaningful use case for your CRUD operations. We will provide the list,
 * Document your JIRA **board URL** in the project README.
 * Draw a requirements diagram
 
-### **3. Backend Development (Node.js + Express + MongoDB)**
+## Tech stack
 
-* Create a user-friendly interface to interact with your API (Some portion developed, follow task manager app)).
-* Implement **forms** for adding and updating records.
-* Display data using  **tables, cards, or lists (Follow how we showed data in task manager app)**
+### Backend
 
-### **4. Frontend Development (React.js)**
+* Node.js + Express
+* MongoDB
 
-* Create a user-friendly interface to interact with your API (**Some portion developed, follow task manager app)**.
-* Implement **forms** for adding, showing, deleting and updating records (CRUD).
-* Display data using  **tables, cards, or lists (Follow how we showed data in task manager app)**
+### Frontend
 
-### **5. Authentication & Authorization**
+* React.js
 
-* Ensure **only authenticated users** can access and perform CRUD operations. (Already developed in your project)
-* Use **JWT (JSON Web Tokens)** for user authentication (Use the task manager one from .env file).
+### Upcoming features
 
-### **6. GitHub Version Control & Branching Strategy**
+* Manage event categories and settings
+* View event analytics and reports
+* Add event management dashboard
+* Create calendar view for events
+* Add search and filter components
 
-* Use **GitHub for version control** and maintain:
-  * `main` branch (stable production-ready code)
-  * Feature branches (`feature/xyz`) for each new functionality
-* Follow proper **commit messages** and  **pull request (PR) reviews** .
+### Authentication & Authorization**
 
-### **7. CI/CD Pipeline Setup**
+* Only registered and authenticated users can access the system
+
+### CI/CD Pipeline Setup
 
 * Configured for Continuous integration and Continuous deployment
 * Build and deploy pipeline is configured to run on a `push` to `main` branch
 * Runs on a self hosted agent  
 * Agent runs on a Aws EC2 instance
+* Application runs on AWS EC2 instance
 
 ## **Submission Requirements**
 
-* **JIRA Project Board URL** (user stories ).
-* **Requirment diagram** (Using project features)
-* **GitHub Repository** (`backend/` and `frontend/`).
+* **JIRA Project Board URL** with event management user stories
+* **Requirements diagram** showing event management system features
+* **GitHub Repository** containing:
+  * `backend/` - Node.js API implementation
+  * `frontend/` - React.js application
 * **README.md** with:
+  * Project overview
+  * Setup instructions
+  * API documentation
+  * Environment variables guide
+  * CI/CD pipeline details
 
-  * Project setup instructions.
-  * CI/CD pipeline details.
+## **Setup Instructions**
+
+1. Clone the repository
+
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Install dependencies
+
+   ```bash
+   npm run install-all
+   ```
+
+3. Configure environment variables
+
+   ```
+   # Backend .env
+   MONGODB_URI=<your-mongodb-uri>
+   JWT_SECRET=<your-jwt-secret>
+   PORT=5001
+   # Frontend 
+   Application launch uri =http://localhost:3000
+   ```
+
+4. Run the application
+
+    ```bash
+    npm run dev
+    ```
