@@ -60,6 +60,7 @@ Select a meaningful use case for your CRUD operations. We will provide the list,
 ## **Submission Requirements**
 
 * **JIRA Project Board URL** (user stories ).
+  https://iankong.atlassian.net/jira/software/projects/RRS/boards/100?selectedIssue=RRS-4
 * **Requirment diagram** (Using project features)
 * **GitHub Repository** (`backend/` and `frontend/`).
 * **README.md** with:
