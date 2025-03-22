@@ -49,6 +49,11 @@ This application allows authenticated users to:
 * Agent runs on a Aws EC2 instance
 * Application runs on AWS EC2 instance
 
+### Project structure
+
+* backend/ - Node.js API implementation using Express and MongoDB
+* frontend/ - React.js application
+
 ## **Submission Requirements**
 
 * **JIRA Project Board URL** with event management user stories
