@@ -27,6 +27,18 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
     }
   };
 
+  const handleUnRegister = async (eventId) => {
+    try {
+      const response = await axiosInstance.post(`/api/events/unregister/${eventId}`, {}, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setEvents(events.map((event) => (event._id === response.data._id ? response.data : event)));
+      alert('Successfully unregistered from the event!');
+    } catch (error) {
+      alert('Failed to unregister from the event.');
+    }
+  };
+
   return (
     <div>
       {events.map((event) => (
@@ -81,6 +93,16 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
             >
               Register
             </button>
+            </div>
+          )}
+          {event.isRegistered && (
+            <div className="mt-2">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => handleUnRegister(event._id)}
+              >
+                Unregister
+              </button>
             </div>
           )}
         </div>

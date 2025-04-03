@@ -112,10 +112,40 @@ const register = async (req, res) => {
     }
 };
 
+const unregister = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const event = await Event.findById(id).populate('creator participants', 'name email');
+        
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        if (!event.participants 
+            || !event.participants.some(participant => participant._id.toString() === req.user.id)) {
+            return res.status(400).json({ message: 'Not registered for this event' });
+        }
+        
+        event.participants = event.participants.filter(participant => participant._id.toString() !== req.user.id);
+        await event.save();
+
+        const updatedEvent = await event.populate('creator participants', 'name email');
+        const eventRes = {
+            ...updatedEvent.toObject(),
+            isEditable: updatedEvent.creator._id.toString() === req.user.id,
+            isRegistered: false
+        };
+        res.json(eventRes);
+    } catch (error) {
+        res.status(500).json({ message: 'Error unregistering from event', error: error.message });
+    }
+}
+
 module.exports = { 
     getEvents, 
     createEvent, 
     updateEvent, 
     deleteEvent, 
-    register 
+    register,
+    unregister 
 };

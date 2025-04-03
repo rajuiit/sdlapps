@@ -1,4 +1,4 @@
-# **Event Management App: Full-Stack CRUD Application Development with DevOps Practices**
+# **Event Management App**
 
 ## **1. Event Management Application Features**
 
@@ -40,6 +40,8 @@ This application allows authenticated users to:
 ### Authentication & Authorization**
 
 * Only registered and authenticated users can access the system
+* Only owners of the events can manage them
+* JWT authentication is used for secure access
 
 ### CI/CD Pipeline Setup
 
@@ -53,20 +55,6 @@ This application allows authenticated users to:
 
 * backend/ - Node.js API implementation using Express and MongoDB
 * frontend/ - React.js application
-
-## **Submission Requirements**
-
-* **JIRA Project Board URL** with event management user stories
-* **Requirements diagram** showing event management system features
-* **GitHub Repository** containing:
-  * `backend/` - Node.js API implementation
-  * `frontend/` - React.js application
-* **README.md** with:
-  * Project overview
-  * Setup instructions
-  * API documentation
-  * Environment variables guide
-  * CI/CD pipeline details
 
 ## **Setup Instructions**
 
