@@ -21,7 +21,6 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setEvents(events.map((event) => (event._id === response.data._id ? response.data : event)));
-      alert('Successfully registered for the event!');
     } catch (error) {
       alert('Failed to register for the event.');
     }
@@ -33,7 +32,6 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setEvents(events.map((event) => (event._id === response.data._id ? response.data : event)));
-      alert('Successfully unregistered from the event!');
     } catch (error) {
       alert('Failed to unregister from the event.');
     }
@@ -95,7 +93,7 @@ const EventList = ({ events, setEvents, setEditingEvent }) => {
             </button>
             </div>
           )}
-          {event.isRegistered && (
+          {!event.isEditable && event.isRegistered && (
             <div className="mt-2">
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
