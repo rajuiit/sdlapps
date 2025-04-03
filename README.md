@@ -8,16 +8,6 @@ This application allows authenticated users to:
 * Register for events
 * Track event attendance
 
-### **2. Project Management with JIRA and SysML**
-
-* Create a **JIRA project** and define:
-  * **Epic**
-  * **User Stories** (features required in your app)
-  * **Child issues & Subtasks** (breaking down development work)
-  * **Sprint Planning** (organizing work into milestones)
-* Document your JIRA **board URL** in the project README.
-* Draw a requirements diagram
-
 ## Tech stack
 
 ### Backend
