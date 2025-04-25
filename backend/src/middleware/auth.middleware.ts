@@ -1,41 +1,51 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
+
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { IUser, User } from '../models/User';
+import { IUser, User, UserDocument } from '@/user/entities/user.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 interface RequestWithUser extends Request {
-  user?: IUser;
+  user?: Omit<UserDocument, 'password'>;
 }
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
+  constructor(
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>,
+  ) {}
+
   async use(req: RequestWithUser, res: Response, next: NextFunction) {
-    let token: string | undefined;
-
-    if (req?.headers?.authorization?.startsWith('Bearer')) {
-      try {
-        token = req.headers.authorization.split(' ')[1];
-        const decoded: jwt.JwtPayload = jwt.verify(
-          token,
-          process.env.JWT_SECRET as string,
-        ) as jwt.JwtPayload;
-
-        const user = await User.findById(decoded.id).select('-password');
-        if (!user) {
-          return res.status(401).json({ message: 'Not authorized, no user' });
-        }
-
-        next();
-      } catch (error) {
-        console.error('Token verification error:', error);
-        return res
-          .status(401)
-          .json({ message: 'Not authorized, token failed' });
-      }
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Not authorized, no token' });
     }
 
-    if (!token) {
-      return res.status(401).json({ message: 'Not authorized, no token' });
+    const token = authHeader.slice(7).trim();
+    try {
+      // 1) verify the JWT
+      const payload = jwt.verify(
+        token,
+        process.env.JWT_SECRET as string,
+      ) as jwt.JwtPayload;
+
+      // 2) load the user (minus password)
+      const user = await this.userModel
+        .findById(payload.id)
+        .select('-password')
+        .lean();
+      if (!user) {
+        return res.status(401).json({ message: 'Not authorized, no user' });
+      }
+
+      // 3) attach to request and continue
+      req.user = user;
+      return next();
+    } catch (err) {
+      console.error('Token verification error:', err);
+      return res.status(401).json({ message: 'Not authorized, token failed' });
     }
   }
 }
