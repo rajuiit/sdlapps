@@ -1,11 +1,11 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { Logger } from '@nestjs/common';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 @Injectable()
 export class HttpLoggerMiddleware implements NestMiddleware {
-  private logger = new Logger('HTTP');
+  private logger = new Logger('HTTP_Logger');
   use(req: Request, res: Response, next: NextFunction) {
     const { method, originalUrl, ip } = req;
     const startTime = Date.now(); // Capture the start time
